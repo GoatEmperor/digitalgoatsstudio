@@ -1,0 +1,23 @@
+<!DOCTYPE html> \n
+<html lang="en"> \n
+<head> \n
+\t <meta charset="UTF-8" /> \n
+\t <title>Moo Cowboy Dr. Pie</title> \n
+\t <meta name="viewport" content="width=device-width,initial-scale=1" />\n
+\t <meta name="description" content="" /> \n
+\t <link rel="stylesheet" type="text/css" href="..\\style.css" /> \n
+\t <link rel="icon" href="favicon.png"> \n
+</head> \n
+<body> \n
+\t <div id="loader-wrapper"> \n
+\t \t <div class="loader"></div> \n
+\t </div> \n 
+\t <img src="favicon.png" alt="DGS wiki logo 140 by 140 with no background" width="140" height="140"/> \n
+\t <h1 id="wikihead">WIKI_PAGE_DGS_ERROR_NAME_NOT_FOUND</h1> \n
+
+
+\t <script> \n
+\t \t document.getElementById("wikihead").innerHTML = document.title \n
+\t </script> \n
+\t </body> \n
+\t </html> \n

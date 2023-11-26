@@ -1,0 +1,21 @@
+----- Char -----
+Game Name - Topic
+
+Description
+
+[Picture]
+
+Basic Info
+
+//Name
+//Gender
+//Birth Date
+//Death Date
+
+
+Familt
+
+//List Family here
+
+
+Char traits (ie. Sailor's Ship)

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Wiki Page Editor</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" type="text/css" href="..\style.css" />
+	<link rel="icon" href="favicon.png">
+</head>
+<body>
+	<div id="loader-wrapper">
+    <div class="loader"></div>
+	</div>
+
+	<h1 id="wikihead">WIKI_PAGE_DGS_ERROR_NAME_NOT_FOUND</h1>
+	
+	<div>
+		<button onclick="add('#> ') ">/></button>
+		<button onclick="add('#[p #]p') ">Text</button>
+		<button onclick="add('#n') ">Enter</button>
+		<button onclick="add('#[b #]b ')">Bold</button>
+		<button onclick="add('#( #)') ">List Item</button>
+		<button onclick="add('#[ #]')">List</button>
+		<button onclick="add('#{ #}')">Ordered List</button>
+		<button onclick="add('#[h #]h ')">Sub-Heading</button>
+		<button style='cursor:pointer;' title="Be sure to add ' if not followed by #>" onclick="add('#i ')">Image</button>
+		<button onclick="add('..\\assets\\')">Assets Path</button>
+		<button onclick="add('#[! #]!')">Waring</button>
+		<button style='cursor:pointer;' title="Be sure to add ' if not followed by #>" onclick="add('#t')">Tool Tip</button>
+
+	</div>
+	
+	<textarea id="textarea" rows="50" cols="133">#[! This page is a test #i ..\assets\wikipage-spoilers.png' #t Spoilers #> #i ..\assets\wikipage-oldpage.png' #t Outdated page #> #]! #[p Moo #[b Cowboy #]b is #n #]p #[ #( Best Game #) #( The Game #) #( A Game #) #] #[h Gameplay #]h #i ..\assets\MooCowboy.png #> </textarea>
+	
+	<textarea id="codedisplay" cols="85" rows="50" readonly="true" wrap="false"> </textarea>
+	
+	<div>
+		<button onclick="exportwiki()">Export</button>
+	</div>
+
+	<script>
+		document.getElementById("wikihead").innerHTML = document.title;
+		const textarea = document.getElementById("textarea");
+		const codearea = document.getElementById("codedisplay");
+		var exported = []
+		// test text 			    #[! This page is a test #i ..\assets\wikipage-spoilers.png' #t Spoilers #> #i ..\assets\wikipage-oldpage.png' #t Outdated page #> #]! #[p Moo #[b Cowboy #]b is #n #]p #[ #( Best Game #) #( The Game #) #( A Game #) #] #[h Gameplay #]h #i ..\assets\MooCowboy.png #> 
+		// #[ #] for <ul>
+		// #( #) for <li>
+		// #n for <br>
+		// #[b #]b for <b>
+		// #[h #]h for <h2>
+		// #[p #]p for <p>
+		// #i for img (..\assets\)
+		// #[! #]! for warning
+		// #t for style='cursor:pointer;' title='
+		
+		
+		function add(t) {
+			textarea.value = textarea.value + t
+		}
+		
+		function exportwiki() {
+			var split = textarea.value.split(" ");
+			//console.log(split)
+			
+			split.forEach((word) => {
+			
+				if (word == "#(") {word = "\n \t <li>"}
+				if (word == "#)") {word = "</li>"}
+				if (word == "#[") {word = "\n <ul>"}
+				if (word == "#]") {word = "\n </ul>"}
+				if (word == "#n") {word = "<br>"}
+				if (word == "#[b") {word = "<b>"}
+				if (word == "#]b") {word = "</b>"}
+				if (word == "#[h") {word = "\n <h2>"}
+				if (word == "#]h") {word = "</h2>"}
+				if (word == "#[p") {word = "\n <p>"}
+				if (word == "#]p") {word = "</p>"}
+				if (word == "#{") {word = "\n <ol>"}
+				if (word == "#}") {word = "\n </ol>"}
+				if (word == "#i") {word = "\n <img src='" } 
+				if (word == "#>") {word = "'/>" }
+				if (word == "#[!") {word = "\n <h1 style='border-bottom: 8px solid black; background-color: gray; color: white; font-size: 48px;'> WARNING:"}
+				if (word == "#]!") {word = "</h1>"}
+				if (word == "#t") {word = "style='cursor:pointer;' title='"}			
+				exported.push(word)
+			});
+			
+			exported = exported.join(" ");
+			
+			var titlename = window.prompt("Title Name", "Untitled");
+			var filename = "wiki-" + window.prompt("Game", "mc-") + titlename.toLowerCase();
+			
+			console.log(titlename)
+			console.log(filename)
+			
+			exported = `<!DOCTYPE html> \n <html lang="en"> \n <head> \n \t <meta charset="UTF-8" /> \n \t <title> ${ titlename } </title> \n \t <meta name="viewport" content="width=device-width,initial-scale=1" />\n \t <meta name="description" content="" /> \n \t <link rel="stylesheet" type="text/css" href="..\\style.css" /> \n \t <link rel="icon" href="favicon.png"> \n </head> \n <body> \n \t <div id="loader-wrapper"> \n \t \t <div class="loader"></div> \n \t </div> \n \t <img src="favicon.png" alt="DGS wiki logo 140 by 140 with no background" width="140" height="140"/> \n \t <h1 id="wikihead">WIKI_PAGE_DGS_ERROR_NAME_NOT_FOUND</h1> \n ${exported} \n`
+			
+			exported = exported + "\t <script> \n \t \t document.getElementById('wikihead').innerHTML = document.title \n"
+			exported = exported + " \t </scr" + "ipt> \n </body> \n </html> \n"
+			
+			console.log(exported);
+			codearea.value = exported;
+			
+			exported = [];
+		}
+	</script>
+
+</body>
+</html>
