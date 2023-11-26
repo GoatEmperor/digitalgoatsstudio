@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Digital Goats Studio - Games</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="icon" href="favicon.png">
+</head>
+<body>
+  <div id="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+  <style>
+		/* For best practice, move CSS below to an external CSS file. */
+		@keyframes rotation {
+		0% {
+			transform: rotate(0deg); }
+		100% {
+			transform: rotate(360deg); } }
+		#loader-wrapper {
+		background-color: #FFFFFF;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 999;
+		width: 100%;
+		height: 100%;
+		text-align: center; }
+		.loader {
+		width: 40px;
+		height: 40px;
+		border: 5px solid #000000;
+		border-bottom-color: transparent;
+		border-radius: 50%;
+		margin-top:calc(50vh - 20px);
+		display: inline-block;
+		box-sizing: border-box;
+		-webkit-animation: rotation 1s linear infinite;
+		animation: rotation 1s linear infinite; }
+  </style>
+	<div class="sidenav">
+		<a href="About.html">About</a>
+		<a href="Index.html">Home</a>
+		<a href="Wiki.html">Wiki</a>
+	</div>
+
+	<div id="pd" class="gamediv"> 
+		<h1><a href="https://goatemperor.github.io/PenguinDash/"> PenguinDash </a></h1>
+		<embed type="" src="https://goatemperor.github.io/PenguinDash/" width="830" height="630" />
+	</div>
+	
+	<div id="mc" class="gamediv"> 
+		<h1> Moo Cowboy </h1>
+		<p><a href="https://www.roblox.com/games/6792981098/Moo-Cowboy"><img src="assets\Moocowboy.png" ></a></p>
+	</div>
+	
+	<div id="fc" class="gamediv"> 
+		<h1> The Fight Club </h1>
+		<p><a href="https://www.roblox.com/games/10205731244/The-Fight-Club"><img src="https://tr.rbxcdn.com/3d90f46e2f307ca61705087cd313486b/768/432/Image/Png" ></a></p>
+	</div>
+	
+	<div id="ih" class="gamediv"> 
+		<h1> Infectious Hockey! </h1>
+		<p><a href="https://www.roblox.com/games/8936979406/Infectious-Hockey"><img src="https://tr.rbxcdn.com/e9d385664b9207a1631a98aaee4126eb/352/352/Image/Png" ></a></p>
+	</div>
+	
+	
+	
+	
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(window).on('load', function() {
+			$("#loader-wrapper").fadeOut(700);
+		});
+	</script>
+	<script src="errorhandle.js"></script>
+</body>
+</html>
