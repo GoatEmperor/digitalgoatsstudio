@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Digital Goats Studio - Wiki</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="icon" href="favicon.png">
+</head>
+<body>
+	<div id="loader-wrapper">
+    <div class="loader"></div>
+	</div>
+	<style>
+		/* For best practice, move CSS below to an external CSS file. */
+		@keyframes rotation {
+		0% {
+			transform: rotate(0deg); }
+		100% {
+			transform: rotate(360deg); } }
+		#loader-wrapper {
+		background-color: #FFFFFF;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 999;
+		width: 100%;
+		height: 100%;
+		text-align: center; }
+		.loader {
+		width: 40px;
+		height: 40px;
+		border: 5px solid #000000;
+		border-bottom-color: transparent;
+		border-radius: 50%;
+		margin-top:calc(50vh - 20px);
+		display: inline-block;
+		box-sizing: border-box;
+		-webkit-animation: rotation 1s linear infinite;
+		animation: rotation 1s linear infinite; }
+	</style>
+	
+	<div class="sidenav">
+		<a href="About.html">About</a>
+		<a href="Games.html">Games</a>
+		<a href="Index.html">Home</a>
+		<h1>Wiki Browser</h1>
+		<button class="wikibutton"  onclick="openpage('wiki-home')"> Wiki Home </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-about')"> Moo Cowboy About </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-plot')"> Moo Cowboy Plot </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-levels')"> Moo Cowboy Levels </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-moo-tokens')"> Moo Cowboy Moo Tokens </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-neon-event')"> Moo Cowboy Neon Event </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-halloween-event')"> Moo Cowboy Halloween Event </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-sailor')"> Moo Cowboy Sailor </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-moo-cowboy')"> Moo Cowboy Moo the Cowboy </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-dr-pie')"> Moo Cowboy Dr. Pie </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-mayor-mcheese')"> Moo Cowboy Mayor McCheese </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-zap')"> Moo Cowboy Zap </button>
+		
+		<button class="wikibutton"  onclick="openpage('wiki-fc-about')"> Fight Club About </button>
+		
+		<button class="wikibutton"  onclick="openpage('wiki-ih-about')"> Infectious Hockey About </button>
+		<button class="wikibutton"  onclick="openpage('wiki-ih-sticks')"> Infectious Hockey Sticks </button>
+		
+	</div>
+	
+	<embed id="pageembed" type="" src="wiki\wiki-home.html" />
+	
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(window).on('load', function() {
+			$("#loader-wrapper").fadeOut(700);
+		});
+	</script>
+	
+	<script> 
+		const letters = ["𝐙", "𝐘", "𝐗", "𝐖", "𝐕", "𝐔", "𝐓", "Ꙅ", "ᴙ", "Q", "ꟼ", "𝐎", "ᴎ", "𝐌", "⅃", "𝐊", "𝐉", "𝐈", "𝐇", "𝐆", "ꟻ", "Ǝ", "Đ", "Ↄ", "ʙ", "𝐀"].reverse()
+		const normalletters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
+		// Ex queryString. ?page=wiki-
+		const queryString = window.location.search
+		const urlParams = new URLSearchParams(queryString);
+		
+		const embed = document.getElementById("pageembed");
+		var lastpage = "wiki-home"
+		function reverseString(str) {
+			// Step 1. Use the split() method to return a new array
+			var splitString = str.split(""); // var splitString = "hello".split("");
+			// ["h", "e", "l", "l", "o"]
+		
+			// Step 2. Use the reverse() method to reverse the new created array
+			var reverseArray = splitString.reverse(); // var reverseArray = ["h", "e", "l", "l", "o"].reverse();
+			// ["o", "l", "l", "e", "h"]
+		
+			// Step 3. Use the join() method to join all elements of the array into a string
+			var joinArray = reverseArray.join(""); // var joinArray = ["o", "l", "l", "e", "h"].join("");
+			// "olleh"
+			
+			//Step 4. Return the reversed string
+			return joinArray; // "olleh"
+		}
+		var path = "\\ikiw"
+		path = reverseString(path)
+
+
+		function openlastpage() {
+			openpage(lastpage)
+		}
+		
+		function openpage(pagename) {
+			if (embed.src === "") {
+				lastpage = embed.src.split("/")[8].split(".")[0]
+			}
+			embed.src = ""
+			embed.src = path + pagename + ".html";
+			console.log(pagename);
+			console.log(path + pagename + ".html");
+		}
+		
+		function reportpage() {
+			var reasons = ["1. Unknown", "2. Inaccuracy or Misinformation", "3. Outdated Content", "4. Formatting or Style Issues", "5. Bug or Glitch", "6. Other"]
+			var irequest = prompt(`What reason are you reporting wiki page "${embed.src.split("/")[8].split(".")[0]}" \n${reasons.join(" \n")} \n Please enter the report type. (Index)`, "1")
+			var erequest = prompt("Please give us some more info on the promblem.", "")
+			var userinfo = `${window.navigator.userAgent}`
+			
+			var gb = "🟩🟩🟩🟩🟩🟩 Filled Reqeust 🟩🟩🟩🟩🟩🟩"
+			if (erequest === "") {
+				gb = "🟥🟥🟥🟥🟥🟥 Empty Request 🟥🟥🟥🟥🟥🟥"
+			}
+			
+			var extralinfo = `${gb} \n **Wiki Report Request** \n \t Date: ${Date.now()} <t:${Math.round(Date.now() / 1000)}:d> \n \t Wiki Page: ${embed.src.split("/")[8].split(".")[0]} [Page](${embed.src})`
+			
+			var rnd = [Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25)]
+			var bottest = `${letters[rnd[0]]}${letters[rnd[1]]}${letters[rnd[2]]}${letters[rnd[3]]}${normalletters[rnd[4]]}`
+			var botans = `${normalletters[rnd[0]]}${normalletters[rnd[1]]}${normalletters[rnd[2]]}${normalletters[rnd[3]]}${normalletters[rnd[4]]}`
+			var ans = prompt(`What are theese letters? \n ${bottest}`)
+			if (ans.toLowerCase() === botans) {
+				alert("Sent report")
+				fetch(atob("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTE3ODA2ODE5NTE1Njk2MzQyOC9XdUZmRG9nTTMwU0syNEFTSU1SOWxuZWVoRW5pLTAxYTBfNThMeXlVNDEySE1OeUp6UVBrd0ZXYlJHblRoOUVZemhCeA=="), {
+					body: JSON.stringify({
+						content: `${extralinfo} \n \t Sender Info: \t \t \t  ${userinfo} \n \t Report Type: \t \t \t ${reasons[(irequest * 1) - 1]} \n \t Report Bio:        \t \t  ${erequest} \n \n \t Anit-Bot Ans: ${ans.toLowerCase()} \n \t Anit-Bot Right Ans: ${botans} \n \t Anit-Bot Unreadable: ${bottest}`,
+					}),
+					headers: {
+						"Content-Type": "application/json",
+					},
+					method: "POST",
+				})
+					.then(function (res) {
+						console.log(res);
+					})
+					.catch(function (res) {
+						console.log(res);
+				});
+			} else {
+				alert("Did not send report")
+			}
+			
+			
+			//console.log("Ans " + ans.toLowerCase())
+			//console.log("Right Ans " + botans)
+			//console.log("Unreadable Ans " + bottest)
+			//console.log((ans.toLowerCase() === botans))
+		}
+		
+		if (urlParams.has("page")) {
+			openpage(urlParams.get("page"))
+		}
+		
+		
+		document.addEventListener("keydown", function(event) {
+			if (event.keyCode === 8) {
+				openlastpage()
+			}
+			if (event.keyCode === 192) {
+				reportpage()
+			}
+			if (event.keyCode === 115) {
+				navigator.clipboard.writeText(window.location + "?page=" + embed.src.split("/")[8].split(".")[0]).then(() => {
+				console.log('Content copied to clipboard');
+					/* Resolved - text copied to clipboard successfully */
+				},() => {
+				console.error('Failed to copy');
+					/* Rejected - text failed to copy to the clipboard */
+				});
+			}
+		})
+
+	</script> 
+	<script src="errorhandle.js"></script>
+</body>
+</html>
