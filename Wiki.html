@@ -57,6 +57,7 @@
 		<button class="wikibutton"  onclick="openpage('wiki-mc-moo-cowboy')"> Moo Cowboy Moo the Cowboy </button>
 		<button class="wikibutton"  onclick="openpage('wiki-mc-dr-pie')"> Moo Cowboy Dr. Pie </button>
 		<button class="wikibutton"  onclick="openpage('wiki-mc-mayor-mcheese')"> Moo Cowboy Mayor McCheese </button>
+		<button class="wikibutton"  onclick="openpage('wiki-mc-zap')"> Moo Cowboy Zap </button>
 		
 		<button class="wikibutton"  onclick="openpage('wiki-fc-about')"> Fight Club About </button>
 		
@@ -65,7 +66,7 @@
 		
 	</div>
 	
-	<embed id="pageembed" type="" src="wiki\wiki-home.html" width="1200" height="875" />
+	<embed id="pageembed" type="" src="wiki\wiki-home.html" />
 	
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 	<script type="text/javascript">
@@ -101,13 +102,16 @@
 		}
 		var path = "\\ikiw"
 		path = reverseString(path)
-		
+
+
 		function openlastpage() {
 			openpage(lastpage)
 		}
 		
 		function openpage(pagename) {
-			lastpage = embed.src.split("/")[8].split(".")[0]
+			if (embed.src === "") {
+				lastpage = embed.src.split("/")[8].split(".")[0]
+			}
 			embed.src = ""
 			embed.src = path + pagename + ".html";
 			console.log(pagename);
@@ -127,7 +131,7 @@
 			
 			var extralinfo = `${gb} \n **Wiki Report Request** \n \t Date: ${Date.now()} <t:${Math.round(Date.now() / 1000)}:d> \n \t Wiki Page: ${embed.src.split("/")[8].split(".")[0]} [Page](${embed.src})`
 			
-			var rnd = [Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25)]
+			var rnd = [Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25),Math.round(Math.random() * 25)]
 			var bottest = `${letters[rnd[0]]}${letters[rnd[1]]}${letters[rnd[2]]}${letters[rnd[3]]}${normalletters[rnd[4]]}`
 			var botans = `${normalletters[rnd[0]]}${normalletters[rnd[1]]}${normalletters[rnd[2]]}${normalletters[rnd[3]]}${normalletters[rnd[4]]}`
 			var ans = prompt(`What are theese letters? \n ${bottest}`)
@@ -162,6 +166,7 @@
 		if (urlParams.has("page")) {
 			openpage(urlParams.get("page"))
 		}
+		
 		
 		document.addEventListener("keydown", function(event) {
 			if (event.keyCode === 8) {
