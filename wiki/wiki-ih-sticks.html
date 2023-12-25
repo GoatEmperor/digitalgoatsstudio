@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Infectious Hockey Sticks</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" type="text/css" href="..\style.css" />
+	<link rel="icon" href="favicon.png">
+</head>
+<body>
+	<div id="loader-wrapper">
+    <div class="loader"></div>
+	</div>
+
+	<img src="favicon.png" alt="DGS wiki logo 140 by 140 with no background" width="140" height="140"/>
+
+	<h1 id="wikihead">WIKI_PAGE_DGS_ERROR_NAME_NOT_FOUND</h1>
+	
+	<p></p>
+	
+	<table>
+		<thead>
+			<tr>
+				<th colspan="4">Hockey Sticks</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Index</td>
+				<td>Name</td>
+				<td>Hand</td>
+				<td>Type</td>
+				<td>Cost</td>
+				<td>Bio</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<script>
+		document.getElementById("wikihead").innerHTML = document.title
+		
+		var type = [
+			"Stick", // 0
+			"Broom", // 1
+			"Cyclotron", // 2
+			"Other" // 3
+		]
+		
+		var sticklist = [
+			{Name:"Fast Sprint",	 Hand:"R",	 Type:type[3],	Cost:0,	Bio:"Make you walk faster"							},
+			{Name:"Faster Sprint",	 Hand:"R",	 Type:type[3],	Cost:300,	Bio:"Makes you even faster"						},
+
+			{Name:"Orange Jam Stick",	 Hand:"R/L",	 Type:type[0],	Cost:0,	Bio:"This stick does not have a bio"		},
+			{Name:"Purple Jelly Stick",	 Hand:"R/L",	 Type:type[0],	Cost:0,	Bio:"This stick does not have a bio"		},
+			{Name:"Golf Club",	 Hand:"L",	 Type:type[0],	Cost:100,	Bio:"Should help you swing faster."					},
+			{Name:"Sweeper",	 Hand:"R",	 Type:type[1],	Cost:2300,	Bio:"Sweep up the ball. Only can be bought in beta" },
+			{Name:"Future Stick",	 Hand:"R/L",	 Type:type[0],	Cost:2500, Bio:"A hockey stick with no stick part?"		},
+			{Name:"Snake Stick",	 Hand:"R/L",	 Type:type[0],	Cost:2800, Bio:"A funny snake HAHAHA"					},
+			{Name:"Lamp Post Stick",	 Hand:"R/L",	 Type:type[0],	Cost:3100,	Bio:"Light up the gym with one"			},
+			{Name:"Paint Roller Stick",	 Hand:"R/L",	 Type:type[0],	Cost:3200,	Bio:"A stick that will cause a mess"	},
+			{Name:"Ball and Chain",	 Hand:"B",	 Type:type[3],	Cost:2200,	Bio:"Find the power of the ball and chain!"		},
+			{Name:"Worm Stick",	 Hand:"R/L",	 Type:type[0],	Cost:2800,	Bio:"A wrost snake? NO IT'S A NOODLE"			},
+			{Name:"Wooden Stick", Hand:"R/L", Type:type[0], Cost:3200, Bio:"With the light wight design you can sprint without getting sick."},
+			{Name:"Cyclotron",	 Hand:"R",	 Type:type[2],	Cost:50000,	Bio:"Creates a fake puck"							},
+			{Name:"Golden Snake Stick",	 Hand:"R/L",	 Type:type[1],	Cost:1000000,	Bio:"The stick of true skill"		},
+			{Name:"Sub-Stick",	 Hand:"R/L",	 Type:type[1],	Cost:0,	Bio:"Moo Cowboy cross over"							},
+			{Name:"Vacuum",	 Hand:"R",	 Type:type[3],	Cost:0,	Bio:"Bring the puck to you (60sec cooldown)"				},
+			{Name:"Money Maker",	 Hand:"L",	 Type:type[1],	Cost:0,	Bio:"Gives people who touch it money"				},
+			{Name:"Stone Age",	 Hand:"L",	 Type:type[0],	Cost:0,	Bio:"A stick hard as a rock"							},
+			{Name:"Gift Box",	 Hand:"B",	 Type:type[3],	Cost:0,	Bio:"A huge gift box"									},
+			{Name:"Glacier Stick",	 Hand:"R/L",	 Type:type[0],	Cost:0,	Bio:"An ice stick for hockey"					},	
+			{Name:"Santa Sick",	 Hand:"L",	 Type:type[0],	Cost:0,	Bio:"Ho Ho HO"											},	
+			{Name:"Lava Stick",	 Hand:"R/L",	 Type:type[1],	Cost:0,	Bio:"Very hot and cool looking"						},
+			{Name:"UFO Stick",	 Hand:"B",	 Type:type[3],	Cost:0,	Bio:"Beams the puck up ino the sky."					},
+			{Name:"Broom",	 Hand:"R",	 Type:type[1],	Cost:0,	Bio:" A small broom"										},
+			{Name:"Handy Vacuum",	 Hand:"R",	 Type:type[3],	Cost:0,	Bio:"Use to bring the puck to you (45sec cooldown)" },
+			{Name:"Baby's Toy",	 Hand:"R",	 Type:type[0],	Cost:0,	Bio:" Now you can score very easy (っ °Д °;)っ" 			},
+			{Name:"Gray Sweeper",	 Hand:"R",	 Type:type[1],	Cost:0,	Bio:"We sold out of the green ones"					},
+			{Name:"Fish Pole",	 Hand:"R",	 Type:type[0],	Cost:0,	Bio:"Real in a score"									},
+			{Name:"The Classic",	 Hand:"B",	 Type:type[0],	Cost:0,	Bio:"Like the beta ball and chain"					},
+			{Name:"Fish Stick",	 Hand:"R",	 Type:type[0],	Cost:0,	Bio:"If you use this then you are fishy"				},
+			{Name:"Bopper Stick",	 Hand:"R",	 Type:type[0],	Cost:0,	Bio:"Catch a fish with this one"					},
+			
+		]
+		
+		generateTable();
+
+		function generateTable(n = sticklist.length - 1) {
+			const tableMain = document.querySelector("table");
+
+			for (let i = 0; i <= n; i++) {
+				const ind = sticklist[i]
+				tableMain.insertAdjacentHTML(
+				`beforeend`,
+				`<tr> <td>${i + 1}</td> <td>${ind.Name}</td> <td>${ind.Hand}</td> <td>${ind.Type}</td> <td>${ind.Cost}</td> <td>${ind.Bio}</td> </tr>`)
+				}
+			}
+	</script>
+
+</body>
+</html>

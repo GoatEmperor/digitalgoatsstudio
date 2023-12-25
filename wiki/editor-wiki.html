@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Wiki Page Editor</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" type="text/css" href="..\style.css" />
+	<link rel="icon" href="favicon.png">
+</head>
+<body>
+	<div id="loader-wrapper">
+    <div class="loader"></div>
+	</div>
+
+	
+	<div>
+		<button class="editorbutton" onclick="exportwiki()">Export</button>
+	
+		<button class="editorbutton" onclick="add('#> ') ">/></button>
+		<button class="editorbutton" title="Be sure to add '>"onclick="add('#h') ">href</button>
+		<button class="editorbutton" onclick="add('#[p #]p') ">Text</button>
+		<button class="editorbutton" onclick="add('#n') ">Enter</button>
+		<button class="editorbutton" onclick="add('#[b #]b ')">Bold</button>
+		<button class="editorbutton" onclick="add('#( #)') ">List Item</button>
+		<button class="editorbutton" onclick="add('#[ #]')">List</button>
+		<button class="editorbutton" onclick="add('#{ #}')">Ordered List</button>
+		<button class="editorbutton" onclick="add('#[h #]h ')">Sub-Heading</button>
+		<button class="editorbutton" style='cursor:pointer;' title="Be sure to add ' if not followed by #>" onclick="add('#i ')">Image</button>
+		<button class="editorbutton" onclick="add('..\\assets\\')">Assets Path</button>
+		<button class="editorbutton" onclick="add('#[! #]!')">Waring</button>
+		<button class="editorbutton" style='cursor:pointer;' title="Be sure to add ' if not followed by #>" onclick="add('#t')">Tool Tip</button>
+		<button class="editorbutton" onclick="add('#[& #]&')">Link</button>
+		
+		<select id="presetselect" class="editorbutton">
+			<option value="">Presets</option>
+			<option value="charpage">Char</option>
+			<option value="gamepage">Game</option>
+		</select>
+
+	</div>
+	
+	
+	<textarea id="textarea" rows="25" cols="133" style="background-image: linear-gradient(#f7f8fa ,#e7e9ec); width: calc(100% - 35%); resize: vertical; border-width: 1px;">#[! This page is a test #i ..\assets\wikipage-spoilers.png' #t Spoilers #> #i ..\assets\wikipage-oldpage.png' #t Outdated page #> #]! #[p Moo #[b Cowboy #]b is #n #]p #[ #( Best Game #) #( The Game #) #( A Game #) #] #[h Gameplay #]h #i ..\assets\MooCowboy.png #> #[& #h wiki-mc-about.html' #]& </textarea>
+
+	
+	<textarea id="codedisplay" cols="85" rows="50" readonly="true" wrap="false" style="top: 43px; position: fixed;"> </textarea>
+	
+	<p style="font-size: 16px" id="formatcode">  </p>
+	<script>
+		const textarea = document.getElementById("textarea");
+		const codearea = document.getElementById("codedisplay");
+		const fromatcode = document.getElementById("formatcode");
+		const presetsmenu = document.getElementById("presetselect");
+		var frames = 0
+		var maxlen = 1024;
+		const hex = {
+			hex23 		 : "errorcolor",
+			hex235d      : "list",
+			hex235b      : "list",
+			hex2328      : "items",
+			hex2329      : "items",
+			hex236e      : "misc",
+			hex235b62    : "bold",
+			hex235d62    : "bold",
+			hex235b68    : "text",
+			hex235d68    : "text",
+			hex235b70    : "text",
+			hex235d70    : "text",
+			hex2369      : "visual",
+			hex235b21    : "warning",
+			hex235d21    : "warning",
+			hex2374      : "misc",
+			hex235b26    : "hyperlink",
+			hex235d26	 : "hyperlink",
+			hex233e      : "misc",
+			hex2368		 : "misc",
+			hex237b      : "list",
+			hex237d		 : "list",
+		}
+		const example = {
+			charpage: "<!-- Name --> #[h John Doe #]h <!-- Bio --> #i ..\assets\house.jpg #> #[p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla malesuada pellentesque elit eget gravida cum sociis. Massa placerat duis ultricies lacus sed turpis tincidunt id. In ante metus dictum at tempor commodo ullamcorper a. #]p #[ #( Name: John Doe #) #( Gender: Male #) #( Birth Date: 1970 Jan 1 12:00am (Version ?) #) #( Death Date: ??? #) #] <!-- Char's objects. Ex. Zap's Cart --> #[h John Doe's House #]h #[p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Mattis pellentesque id nibh tortor id aliquet lectus. Sed felis eget velit aliquet. Proin fermentum leo vel orci porta non pulvinar neque laoreet. #]p #i ..\assets\house.jpg #>",
+			gamepage: "#[p GAME is about Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dui id ornare arcu odio. Quis enim lobortis scelerisque fermentum dui faucibus in ornare. #]p",
+			
+		}
+		var exported = [];
+		// test text 			    #[! This page is a test #i ..\assets\wikipage-spoilers.png' #t Spoilers #> #i ..\assets\wikipage-oldpage.png' #t Outdated page #> #]! #[p Moo #[b Cowboy #]b is #n #]p #[ #( Best Game #) #( The Game #) #( A Game #) #] #[h Gameplay #]h #i ..\assets\MooCowboy.png #> #[& #h wiki-mc-about.html' #]&
+		// #[ #] for <ul>	                                            Color:	Red
+		// #( #) for <li>	                                            Color:	Pink
+		// #n for <br>	                                                Color:	Brown
+		// #[b #]b for <b>	                                            Color:	Blue
+		// #[h #]h for <h2>	                                            Color:	Red
+		// #[p #]p for <p>	                                            Color:	Lime
+		// #i for img (..\assets\)	                                    Color:	Orange
+		// #[! #]! for warning	                                        Color:	Yellow
+		// #t for style='cursor:pointer;' title='	                    Color:	Brown
+		// #[& #]& for Wikilink											Color:	Light Blue
+		
+		
+		function add(t) {
+			textarea.value = textarea.value + t;
+		}
+		
+		function setuptempplate(temp) {
+			textarea.value = example[temp]
+		}
+		
+		const stringToHex = (str) => {
+			let hex = '';
+			for (let i = 0; i < str.length; i++) {
+				const charCode = str.charCodeAt(i);
+				const hexValue = charCode.toString(16);
+				
+				// Pad with zeros to ensure two-digit representation
+				hex += hexValue.padStart(2, '0');
+			}
+			return hex;
+		};
+		
+		function updateformat() {
+			frames += 1
+			formatcode.innerHTML = "<br>";
+			var split = textarea.value.replace("\n", " <br> ").split(" ");
+			if (!(textarea.value.length > maxlen)) {
+				split.forEach((word) => {
+					var color = "brown";
+					color = hex["hex" + stringToHex(word)];
+					
+					formatcode.innerHTML = `${formatcode.innerHTML} <span class=${color}>${word}</span>`;
+				
+					
+				});
+			} else {
+				formatcode.innerHTML = `String overflow! Max length = ${maxlen}`;
+			}
+			
+			window.requestAnimationFrame(updateformat)
+		}
+		
+		function exportwiki() {
+			var split = textarea.value.replace("\n", " ").split(" ");
+			//console.log(split)
+			
+			split.forEach((word) => {			
+			
+				if (word == "#(") 	{word = "\n \t <li>"}
+				if (word == "#)") 	{word = "</li>"}
+				if (word == "#[") 	{word = "\n <ul>"}
+				if (word == "#]") 	{word = "\n </ul>"}
+				if (word == "#n") 	{word = "<br>"}
+				if (word == "#[b") 	{word = "<b>"}
+				if (word == "#]b") 	{word = "</b>"}
+				if (word == "#[h") 	{word = "\n <h2>"}
+				if (word == "#]h") 	{word = "</h2>"}
+				if (word == "#[p") 	{word = "\n <p>"}
+				if (word == "#]p") 	{word = "</p>"}
+				if (word == "#{") 	{word = "\n <ol>"}
+				if (word == "#}") 	{word = "\n </ol>"}
+				if (word == "#i") 	{word = "\n <img src='" } 
+				if (word == "#>") 	{word = "'/>" }
+				if (word == "#[!") 	{word = "\n <h1 style='border-bottom: 8px solid black; background-color: gray; color: white; font-size: 48px;'> WARNING:"}
+				if (word == "#]!") 	{word = "</h1>"}
+				if (word == "#t") 	{word = "style='cursor:pointer;' title='"}	
+				if (word == "#[&") 	{word = "\n <a"}
+				if (word == "#]&")	{word = "</a>"}
+				if (word == "#h") 	{word = "href='" } 
+				exported.push(word)
+			});
+			
+			exported = exported.join(" ");
+			
+			var titlename = window.prompt("Title Name", "Untitled");
+			var filename = "wiki-" + window.prompt("Game", "mc-") + titlename.toLowerCase();
+			
+			console.log(titlename)
+			console.log(filename)
+			
+			exported = `<!DOCTYPE html> \n <html lang="en"> \n <head> \n \t <meta charset="UTF-8" /> \n \t <title> ${ titlename } </title> \n \t <meta name="viewport" content="width=device-width,initial-scale=1" />\n \t <meta name="description" content="" /> \n \t <link rel="stylesheet" type="text/css" href="..\\style.css" /> \n \t <link rel="icon" href="favicon.png"> \n </head> \n <body> \n \t <div id="loader-wrapper"> \n \t \t <div class="loader"></div> \n \t </div> \n \t <img src="favicon.png" alt="DGS wiki logo 140 by 140 with no background" width="140" height="140"/> \n \t <h1 id="wikihead">WIKI_PAGE_DGS_ERROR_NAME_NOT_FOUND</h1> \n ${exported} \n`
+			
+			exported = exported + "\t <script> \n \t \t document.getElementById('wikihead').innerHTML = document.title \n"
+			exported = exported + " \t </scr" + "ipt> \n </body> \n </html> \n"
+			
+			console.log(exported);
+			codearea.value = exported;
+			
+			exported = [];
+		}
+		
+		window.requestAnimationFrame(updateformat)
+		
+		presetsmenu.addEventListener("change", (event) => {
+			if (!(event.target.value == "")) {
+				setuptempplate(event.target.value)
+			}
+		});
+	</script>
+
+</body>
+</html>
