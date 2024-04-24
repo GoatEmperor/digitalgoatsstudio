@@ -1,5 +1,5 @@
 const serverinfo = {
-	"maintenance": true,
+	"maintenance": false,
 	"closed": false,
 }
 
