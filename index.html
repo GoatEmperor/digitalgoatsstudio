@@ -1,38 +1,70 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
+	<meta charset="UTF-8" />
+	<title>Digital Goats Studio</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="description" content="" />
+	
+	<meta content="Digital Goats Studio" property="og:title" />
+	<meta content="At Digital Goats Studio, our passion is crafting entertaining games." property="og:description" />
+	<meta content="favicon.png" property="og:url" />
+	<meta content="https://embed.com/embedimage.png" property="og:image" />
+	<meta content="#e8352e" data-react-helmet="true" name="theme-color" />
 
-  <meta charset="UTF-8" />
-
-  <title>Mech Suit Hud</title>
-
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-  <meta name="description" content="" />
-
-  <link rel="stylesheet" type="text/css" href="style.css" />
-
-  <link rel="icon" href="favicon.png">
-
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="icon" href="favicon.png">
 </head>
-
 <body>
+	<div id="loader-wrapper">
+		<div class="loader"></div>
+	</div>
+	<style>
+		/* For best practice, move CSS below to an external CSS file. */
+		@keyframes rotation {
+		0% {
+			transform: rotate(0deg); }
+		100% {
+			transform: rotate(360deg); } }
+		#loader-wrapper {
+		background-color: #FFFFFF;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 999;
+		width: 100%;
+		height: 100%;
+		text-align: center; }
+		.loader {
+		width: 40px;
+		height: 40px;
+		border: 5px solid #000000;
+		border-bottom-color: transparent;
+		border-radius: 50%;
+		margin-top:calc(50vh - 20px);
+		display: inline-block;
+		box-sizing: border-box;
+		-webkit-animation: rotation 1s linear infinite;
+		animation: rotation 1s linear infinite; }
+	</style>
+	<!-- Side navigation -->
+	<div class="sidenav">
+		<a href="About.html">About</a>
+		<a href="Games.html">Games</a>
+		<a href="Wiki.html">Wiki</a>
+	</div>
+	
+	<img src="favicon.png" alt="DGS logo 300 by 300" width="300" height="300"/>
+	<p> In Digital Goats Studio, we create web games and other types of games. <br><br> In the about page can learn more about us. <br><br> In the game tab you can play or goto our games. <br><br> In the wiki tab you can search info about our games. </p>
 
-  <div id="hud"> 
-        <button id="clock" onclick="clockmode=!clockmode"> Clock </button>
-        <p id="locationtext">Location</p>
-        <video id="video"> </video>
-
-        <button  onclick="startvideo()"> CAM </button>
-        
-
-  </div>
-  <img src="overlay.png" alt="Overlay for the hud" width="100%" height="100%" id="overlay"> 
-
-  <script src="app.js"></script>
-
+  
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$(window).on('load', function() {
+			$("#loader-wrapper").fadeOut(700);
+		});
+	</script>
+	<script src="app.js"></script>
+	<script src="errorhandle.js"></script>
 </body>
-
-</html
+</html>
